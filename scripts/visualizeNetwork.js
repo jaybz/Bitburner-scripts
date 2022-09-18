@@ -1,4 +1,6 @@
+// Original taken from https://gist.github.com/nanodn/11979b481d41eeab980170cb7487953c
 import { ServerNetwork } from "./serverNetwork";
+
 
 /** @param {import("../NetscriptDefinitions").NS} ns */
 export async function main(ns) {
