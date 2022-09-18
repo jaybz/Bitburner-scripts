@@ -37,10 +37,11 @@ export async function main(ns) {
            const money = ns.getPlayer().money;
             if (cost > money) {
                 ns.tprint(`Cost for ${ram}gb server is \$${cost} and you only have ${money}.`)
-                ns.tprint(`${ram}GB server bought, uploading ${script}...`)
                 return;
-            } else
+            } else {
                 ns.purchaseServer(hostname, ram);
+                ns.tprint(`${ram}GB server bought, uploading ${script}...`)
+            }
         }
 
         await ns.scp(script, hostname, 'home');
