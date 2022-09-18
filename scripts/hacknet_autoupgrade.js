@@ -1,7 +1,7 @@
 /** @param {NS} ns */
 
 function computeProduction(ns, level, ram, cores, mult = 1) {
-    if(ns.fileExists('BruteSSH.exe', 'home')) // if you have access to formulas, this should be more precise
+    if(ns.fileExists('Formulas.exe', 'home')) // if you have access to formulas, this should be more precise
         return ns.formulas.hacknetNodes.moneyGainRate(level, ram, cores, mult);
 	else
         return (level * 1.6) * Math.pow(1.035, (ram - 1)) * ((cores + 5) / 6) * mult * 0.9375;
