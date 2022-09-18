@@ -1,4 +1,4 @@
-/** @param {NS} ns **/
+/** @param {NS} ns */
 export async function main(ns) {
 	const args = ns.flags([["help", false]]);
 	if (args.help || args._.length < 2) {
@@ -26,5 +26,5 @@ export async function main(ns) {
 	ns.tprint(`Copying '${script}' to server '${host}'...`);
 	await ns.scp(script, host, 'home');
 	ns.tprint(`Launching script '${script}' on server '${host}' with ${threads} threads and the following arguments: ${host} ${script_args}`);
-	ns.exec(script, host, threads, host, ...script_args);
+	ns.exec(script, host, threads, ...script_args);
 }
