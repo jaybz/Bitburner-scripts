@@ -16,7 +16,7 @@ export function list_servers(ns) {
     return list;
 }
 
-/** @param {NS} ns **/
+/** @param {NS} ns */
 export async function main(ns) {
 	const args = ns.flags([["help", false]]);
     if (args.help) {
@@ -28,7 +28,7 @@ export async function main(ns) {
     }
 
     const playerLevel = ns.getHackingLevel();
-	const servers = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => ns.getServerMaxMoney(s) > 0).filter(s => !ns.getPurchasedServers().includes(s));
+	const servers = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => ns.getServerMaxMoney(s) > 0).filter(s => !ns.getPurchasedServers().includes(s)).sort((a,b) => ns.getServerMaxMoney(b) - ns.getServerMaxMoney(a));
     for(const server of servers) {
         const used = ns.getServerUsedRam(server);
         const max = ns.getServerMaxRam(server);

@@ -1,6 +1,28 @@
 {
+    // bitburner settings
     "bitburner.fileWatcher.enable": true,
     "bitburner.showFileWatcherEnabledNotification": true,
     "bitburner.showPushSuccessNotification": true,
-    "bitburner.scriptRoot": "./scripts/"
+    "bitburner.scriptRoot": "./scripts/",
+
+    // non-relative imports
+    "javascript.preferences.importModuleSpecifier": "non-relative",
+
+    // disable autosave to prevent triggering filewatcher
+    "files.autoSave": "off",
+
+    // autosnippet settings
+    "autoSnippet.snippets": [
+        {
+            "pattern": "**/*.js", 
+            "snippet": "ns-template"
+        },
+    ],
+    "cSpell.words": [
+        "Netscript",
+        "tprint"
+    ],
+    "files.associations": {
+        "*.js": "typescriptreact"
+    },
 }

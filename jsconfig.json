@@ -1,0 +1,9 @@
+{
+    "include": [
+      "NetscriptDefinitions.d.ts",
+      "source/**/*",
+    ],
+    "compilerOptions": {
+      "baseUrl": "."
+    }
+  }

@@ -16,7 +16,7 @@ export function list_servers(ns) {
     return list;
 }
 
-/** @param {NS} ns **/
+/** @param {NS} ns */
 export async function main(ns) {
 	const args = ns.flags([["help", false]]);
     if (args.help) {

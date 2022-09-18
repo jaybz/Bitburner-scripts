@@ -8,18 +8,21 @@ import * as hpccWasm from "https://cdn.skypack.dev/@hpcc-js/wasm";
  * @property {String} edge
  * @property {String} node
  * @property {String} playerNode
+ * @property {String} hackableNode
+ * @property {String} backdooredNode
  * @property {String} rootedNode
+ * @property {String} rootableNode
  * @property {String} secureNode
  */
 
 export class ServerNetwork {
     /**
-     * @param {import("../NetscriptDefinitions").NS} ns
+     * @param {NS} ns
      * @param {ServerNetworkDotStyle} style
      * @param {string} wasmFolder - https://nanodn.github.io/hpccWasm/graphvizlib.wasm
      */
     constructor(ns, style, wasmFolder) {
-        /** @type {import("../NetscriptDefinitions").NS} */
+        /** @type {NS} */
         this.ns = ns;
         /** @type {ServerNetworkDotStyle} */
         this.style = style;
@@ -38,7 +41,7 @@ export class ServerNetwork {
     getGraph(root = "home") {
         let adjs = {};
         const func = (r) => {
-            adjs[r] = this.ns.scan(r).filter((v) => !Object.keys(adjs).includes(v));
+            adjs[r] = this.ns.scan(r).filter(s => !this.ns.getPurchasedServers().includes(s)).filter((v) => !Object.keys(adjs).includes(v));
             for (let n of adjs[r]) func(n);
         };
         func(root);

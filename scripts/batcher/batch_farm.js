@@ -1,5 +1,3 @@
-/** @param {NS} ns */
-
 const weakenScript = 'weaken.js';
 const growScript = 'grow.js';
 const hackScript = 'hack.js';
@@ -48,6 +46,7 @@ async function hack(ns, host, target, threadCount) {
     await runScript(ns, hackScript, host, threadCount, target)
 }
 
+/** @param {NS} ns */
 export async function main(ns) {
     var path = ns.getScriptName();
     scriptPath = path.substring(0, path.lastIndexOf('/'));

@@ -1,3 +1,4 @@
+/** @param {NS} ns */
 export async function main(ns) {
     const args = ns.flags([["help", false]]);
     const server = ns.args[0];

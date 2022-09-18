@@ -2,7 +2,7 @@
 import { ServerNetwork } from "./serverNetwork";
 
 
-/** @param {import("../NetscriptDefinitions").NS} ns */
+/** @param {NS} ns */
 export async function main(ns) {
   const style = {
     graph: "bgcolor=transparent pad=0.4",

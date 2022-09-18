@@ -1,5 +1,3 @@
-/** @param {NS} ns */
-
 function computeProduction(ns, level, ram, cores, mult = 1) {
     if(ns.fileExists('Formulas.exe', 'home')) // if you have access to formulas, this should be more precise
         return ns.formulas.hacknetNodes.moneyGainRate(level, ram, cores, mult);
@@ -29,6 +27,7 @@ function getProductionStats(ns, level, ram, cores) {
 	return stats;
 }
 
+/** @param {NS} ns */
 export async function main(ns) {
 	ns.disableLog('sleep')
 
