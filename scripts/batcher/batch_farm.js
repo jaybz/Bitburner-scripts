@@ -14,7 +14,7 @@ async function runSingleBatch(ns, host, target, threadCount, weakenTime, growTim
     const growDelay = (weakenTime - growTime) - gapDelay;
     const hackDelay = (growTime - hackTime) - (gapDelay * 2);
 
-    var promises = []
+    var promises = [];
 
     promises.push(weaken(ns, host, target, threadCount));
     await ns.asleep(gapDelay * 2);
