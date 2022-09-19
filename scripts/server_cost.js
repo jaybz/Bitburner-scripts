@@ -15,6 +15,6 @@ export async function main(ns) {
     if (cost == Infinity) {
         ns.tprint('Ram size must be a power of 2.');
     } else {
-	    ns.tprint(`Cost for ${ram}gb server is \$${cost}.`)
+	    ns.tprint(`Cost for ${ram}gb server is ${ns.nFormat(cost, "$0.000a")}.`)
     }
 }
