@@ -13,37 +13,40 @@ function computeSingleBatchRAM(ns) {
 async function runSingleBatch(ns, host, target, threadCount, weakenTime, growTime, hackTime, securityThreshold, moneyThreshold, gapDelay) {
     const growDelay = (weakenTime - growTime) - gapDelay;
     const hackDelay = (growTime - hackTime) - (gapDelay * 2);
+    const guid = Math.random().toString(16).slice(-6)
 
-    var promises = [];
+    //var promises = [];
 
-    promises.push(weaken(ns, host, target, threadCount));
+    //promises.push(weaken(ns, host, target, threadCount, guid + '-a'));
+    await weaken(ns, host, target, threadCount, guid + '-a');
     await ns.asleep(gapDelay * 2);
-    promises.push(weaken(ns, host, target, threadCount));
+    //promises.push(weaken(ns, host, target, threadCount, guid + '-b'));
+    await weaken(ns, host, target, threadCount, guid + '-b');
     await ns.asleep(growDelay);
-    promises.push(grow(ns, host, target, threadCount));
+    await grow(ns, host, target, threadCount, guid);
     await ns.asleep(hackDelay);
     if ((ns.getServerSecurityLevel(target) <= securityThreshold) &&
         (ns.getServerMoneyAvailable(target) >= moneyThreshold)) {
-            promises.push(hack(ns, host, target, threadCount));
+            //promises.push(hack(ns, host, target, threadCount, guid));
+            await hack(ns, host, target, threadCount, guid);
         }
     await ns.asleep(hackTime + (gapDelay * 4));
-    await Promise.all(promises);
 }
 
-async function runScript(ns, script, host, threadCount, target) {
-    await ns.exec(scriptPath + script, host, threadCount, target, Math.random().toString(16).slice(-6));
+async function runScript(ns, script, host, threadCount, target, ...param) {
+    await ns.exec(scriptPath + script, host, threadCount, target, ...param);
 }
 
-async function weaken(ns, host, target, threadCount) {
-    await runScript(ns, weakenScript, host, threadCount, target)
+async function weaken(ns, host, target, threadCount, ...param) {
+    await runScript(ns, weakenScript, host, threadCount, target, ...param)
 }
 
-async function grow(ns, host, target, threadCount) {
-    await runScript(ns, growScript, host, threadCount, target)
+async function grow(ns, host, target, threadCount, ...param) {
+    await runScript(ns, growScript, host, threadCount, target, ...param)
 }
 
-async function hack(ns, host, target, threadCount) {
-    await runScript(ns, hackScript, host, threadCount, target)
+async function hack(ns, host, target, threadCount, ...param) {
+    await runScript(ns, hackScript, host, threadCount, target, ...param)
 }
 
 /** @param {import(".").NS} ns **/
@@ -86,24 +89,23 @@ export async function main(ns) {
 
     // batch farm target
     ns.print(`Farming ${target}`);
-    const gapDelay = 100;
+    const gapDelay = 500;
     var promises = [];
     while (true) {
         while(promises.length < batches) {
-            const weakenTime = Math.ceil(ns.getWeakenTime(target));
-            const growTime = Math.ceil(ns.getGrowTime(target));
-            const hackTime = Math.ceil(ns.getHackTime(target));
+            const weakenTime = ns.getWeakenTime(target);
+            const growTime = ns.getGrowTime(target);
+            const hackTime = ns.getHackTime(target);
             const cycleDelay = gapDelay * 4;
             ns.print(`Firing up single batch`);
             promises.push(runSingleBatch(ns, host, target, threadCount, weakenTime, growTime, hackTime, securityThreshold, moneyThreshold, gapDelay));
-            await ns.asleep(cycleDelay);
+            await ns.asleep(cycleDelay * 2);
         }
 
         ns.print(`Waiting for oldest batch to finish...`);
         await promises[0]; // wait for first promise to finish
         promises = promises.splice(1);
 
-        ns.print(`Finished, batches left: ${promises.length}`);
         await ns.asleep(1);
     }
 }
