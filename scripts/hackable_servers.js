@@ -17,6 +17,19 @@ export function list_servers(ns) {
 }
 
 /** @param {import(".").NS} ns **/
+function computeProfitability(ns, target) {
+    const maxMoney = ns.getServerMaxMoney(target);
+    const batchTime = ns.getWeakenTime(target);
+
+    const player = ns.getPlayer();
+    const server = ns.getServer(target);
+    server.hackDifficulty = server.minDifficulty;
+    const hackPercent = ns.formulas.hacking.hackPercent(server, player) * 100;
+
+    return (maxMoney / batchTime) * hackPercent;
+}
+
+/** @param {import(".").NS} ns **/
 export async function main(ns) {
 	const args = ns.flags([["help", false]]);
     if (args.help) {
@@ -28,7 +41,7 @@ export async function main(ns) {
     }
 
     const playerLevel = ns.getHackingLevel();
-	const servers = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => ns.getServerMaxMoney(s) > 0).filter(s => !ns.getPurchasedServers().includes(s)).sort((a,b) => ns.getServerMaxMoney(b) - ns.getServerMaxMoney(a));
+	const servers = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => ns.getServerMaxMoney(s) > 0).filter(s => !ns.getPurchasedServers().includes(s)).sort((a,b) => computeProfitability(ns,a) - computeProfitability(ns,b));
     for(const server of servers) {
         const used = ns.getServerUsedRam(server);
         const max = ns.getServerMaxRam(server);
@@ -39,8 +52,18 @@ export async function main(ns) {
             const minSec = ns.getServerMinSecurityLevel(server);
             const sec = ns.getServerSecurityLevel(server);
             const backdoorIndicator = ns.getServer(server).backdoorInstalled ? '' : '@';
+            const profitability = computeProfitability(ns,server);
+            const hackPercent = ns.hackAnalyzeChance(server);
+            const hackTime = ns.getHackTime(server);
 
-            ns.tprint(`${backdoorIndicator}${server}(${level}) is opened. ${used}/${max} GB (${(100*used/max).toFixed(2)}%). ${ns.nFormat(money, "$0.000a")}/${ns.nFormat(maxMoney, "$0.000a")} - ${minSec}/${sec}`)
+            const player = ns.getPlayer();
+            const minDifficultyServer = ns.getServer(server);
+            minDifficultyServer.hackDifficulty = minDifficultyServer.minDifficulty;
+            const maxHackPercent = ns.formulas.hacking.hackPercent(minDifficultyServer, player) * 100;
+
+            ns.tprint(`${backdoorIndicator}${server}(${level}) can be hacked. ${used}/${max} GB (${(100*used/max).toFixed(2)}%). ${ns.nFormat(money, "$0.000a")}/${ns.nFormat(maxMoney, "$0.000a")} - ${ns.tFormat(hackTime)} - ${minSec}/${sec} - ${(hackPercent*100).toFixed(2)}%/${(maxHackPercent*100).toFixed(2)}% (${ns.nFormat(profitability, "$0.000a")})`)
+            ns.asleep(1);
+            //ns.tprint(minSecurityServer);
         }
     }
 }
