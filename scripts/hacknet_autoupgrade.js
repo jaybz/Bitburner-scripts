@@ -63,7 +63,7 @@ export async function main(ns) {
 			nodes[nodeNum] = stats;
 		}
 
-		var targetStats = nodes[targetNode];
+		var targetStats = nodes.length > 0 ? nodes[targetNode] : 0;
 		var nodeUpgradeType = '';
 		var nodeUpgradeCost = 0;
 
