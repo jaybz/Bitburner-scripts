@@ -1,12 +1,12 @@
 {
-    "ns-template": {
-      "scope": "javascript",
-      "prefix": "template",
-      "body": [
-        "/** @param {import(\"../NetscriptDefinitions\").NS} ns **/",
-        "export async function main(ns) {",
-        "\t",
-        "}"
-      ]
-    },
-  }
+  "ns-template": {
+    "scope": "typescriptreact",
+    "prefix": "template",
+    "body": [
+      "/** @param {import(".").NS} ns **/",
+      "export async function main(ns) {",
+      "\t",
+      "}",
+    ]
+  },
+}

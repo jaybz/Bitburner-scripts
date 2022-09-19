@@ -1,4 +1,4 @@
-/** @param {NS} ns */
+/** @param {import(".").NS} ns **/
 
 const batchScriptPath = '/batcher/';
 const batchScripts = ['batch_farm.js', 'grow.js', 'hack.js', 'weaken.js'];

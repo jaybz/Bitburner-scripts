@@ -1,4 +1,4 @@
-/** @param {NS} ns */
+/** @param {import(".").NS} ns **/
 export async function main(ns) {
 	return ns.weaken(ns.args[0]);
 }

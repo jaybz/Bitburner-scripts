@@ -17,12 +17,12 @@ import * as hpccWasm from "https://cdn.skypack.dev/@hpcc-js/wasm";
 
 export class ServerNetwork {
     /**
-     * @param {NS} ns
-     * @param {ServerNetworkDotStyle} style
-     * @param {string} wasmFolder - https://nanodn.github.io/hpccWasm/graphvizlib.wasm
+     * @param {import(".").NS} ns *
+     * @param {ServerNetworkDotStyle} style *
+     * @param {string} wasmFolder - https://nanodn.github.io/hpccWasm/graphvizlib.wasm *
      */
     constructor(ns, style, wasmFolder) {
-        /** @type {NS} */
+        /** @type {import(".").NS} */
         this.ns = ns;
         /** @type {ServerNetworkDotStyle} */
         this.style = style;
@@ -33,7 +33,7 @@ export class ServerNetwork {
         hpccWasm.wasmFolder(wasmFolder);
     }
 
-    /** @param {ServerNetworkDotStyle} style */
+    /** @param {ServerNetworkDotStyle} style **/
     setStyle(style) {
         this.style = style;
     }

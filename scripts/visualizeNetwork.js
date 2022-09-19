@@ -1,8 +1,7 @@
 // Original taken from https://gist.github.com/nanodn/11979b481d41eeab980170cb7487953c
 import { ServerNetwork } from "./serverNetwork";
 
-
-/** @param {NS} ns */
+/** @param {import(".").NS} ns **/
 export async function main(ns) {
   const style = {
     graph: "bgcolor=transparent pad=0.4",

@@ -27,7 +27,7 @@ function getProductionStats(ns, level, ram, cores) {
 	return stats;
 }
 
-/** @param {NS} ns */
+/** @param {import(".").NS} ns **/
 export async function main(ns) {
 	ns.disableLog('sleep')
 

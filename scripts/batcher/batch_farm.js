@@ -46,7 +46,7 @@ async function hack(ns, host, target, threadCount) {
     await runScript(ns, hackScript, host, threadCount, target)
 }
 
-/** @param {NS} ns */
+/** @param {import(".").NS} ns **/
 export async function main(ns) {
     var path = ns.getScriptName();
     scriptPath = path.substring(0, path.lastIndexOf('/'));
@@ -56,6 +56,8 @@ export async function main(ns) {
     ns.disableLog('getServerMoneyAvailable');
 
     const host = ns.getHostname();
+    /** @type {string} */
+    // @ts-ignore
     const target = ns.args[0];
     const moneyThreshold = ns.getServerMaxMoney(target) * 0.75;
     const securityThreshold = ns.getServerMinSecurityLevel(target) + 5;

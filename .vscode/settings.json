@@ -7,6 +7,8 @@
 
     // non-relative imports
     "javascript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "js/ts.implicitProjectConfig.checkJs": true,
 
     // disable autosave to prevent triggering filewatcher
     "files.autoSave": "off",
@@ -19,10 +21,14 @@
         },
     ],
     "cSpell.words": [
+        "dles",
+        "joesguns",
+        "killall",
         "Netscript",
         "tprint"
     ],
     "files.associations": {
-        "*.js": "typescriptreact"
+        //"*.js": "typescriptreact"
     },
+    "autoSnippet.debug": true,
 }

@@ -1,9 +1,18 @@
 {
-    "include": [
-      "NetscriptDefinitions.d.ts",
-      "source/**/*",
-    ],
-    "compilerOptions": {
-      "baseUrl": "."
+  "include": [
+    "index.d.ts",
+    "**/index.d.ts",
+    "**/*",
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "/*": [
+        "*"
+      ],
+      "@NS": [
+        "./index.d.ts",
+      ]
     }
   }
+}
