@@ -1,9 +1,9 @@
 {
   "ns-template": {
-    "scope": "typescriptreact",
+    "scope": "javascript",
     "prefix": "template",
     "body": [
-      "/** @param {import(".").NS} ns **/",
+      "/** @param {import(\".\").NS} ns **/",
       "export async function main(ns) {",
       "\t",
       "}",
