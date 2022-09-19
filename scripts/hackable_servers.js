@@ -31,7 +31,7 @@ function computeProfitability(ns, target) {
 
 /** @param {import(".").NS} ns **/
 export async function main(ns) {
-	const args = ns.flags([["help", false]]);
+	const args = ns.flags([["help", false], ["clipboard", false]]);
     if (args.help) {
         ns.tprint("This script lists all servers on which you can run scripts.");
         ns.tprint(`Usage: run ${ns.getScriptName()}`);
@@ -42,6 +42,7 @@ export async function main(ns) {
 
     const playerLevel = ns.getHackingLevel();
 	const servers = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => ns.getServerMaxMoney(s) > 0).filter(s => !ns.getPurchasedServers().includes(s)).sort((a,b) => computeProfitability(ns,a) - computeProfitability(ns,b));
+
     for(const server of servers) {
         const used = ns.getServerUsedRam(server);
         const max = ns.getServerMaxRam(server);
@@ -65,5 +66,11 @@ export async function main(ns) {
             ns.asleep(1);
             //ns.tprint(minSecurityServer);
         }
+    }
+
+    if (args.clipboard) {
+        const bestServers = servers.splice(-25).reverse().join(' ');
+        await navigator.clipboard.writeText(bestServers);
+        ns.tprint(`Best 25 servers copied to clipboard: ${bestServers}`);
     }
 }
