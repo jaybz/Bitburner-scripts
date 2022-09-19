@@ -21,11 +21,19 @@
         },
     ],
     "cSpell.words": [
+        "backdoored",
+        "bgcolor",
         "dles",
+        "fillcolor",
+        "fontname",
         "joesguns",
         "killall",
+        "mult",
         "Netscript",
-        "tprint"
+        "penwidth",
+        "rootable",
+        "tprint",
+        "tprintf"
     ],
     "files.associations": {
         //"*.js": "typescriptreact"
