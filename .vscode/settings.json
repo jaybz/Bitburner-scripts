@@ -39,4 +39,5 @@
         //"*.js": "typescriptreact"
     },
     "autoSnippet.debug": true,
+    "workbench.colorTheme": "Monokai Dimmed",
 }
