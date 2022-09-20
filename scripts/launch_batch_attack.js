@@ -94,3 +94,10 @@ export async function main(ns) {
         }
     }
 }
+
+export function autocomplete(data, args) {
+    var sizes = [0, 2];
+    while(sizes[sizes.length - 1] < 1048576)
+        sizes.push(sizes[sizes.length - 1] * 2);
+    return data.servers.concat(sizes);
+}

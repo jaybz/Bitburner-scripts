@@ -43,3 +43,7 @@ export async function main(ns) {
     await navigator.clipboard.writeText(path);
   }
 }
+
+export function autocomplete(data, args) {
+  return data.servers.concat('--clipboard');
+}
