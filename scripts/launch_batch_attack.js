@@ -35,7 +35,7 @@ function checkScripts(ns) {
 }
 
 export async function main(ns) {
-    const args = ns.flags([["help", false], ["force", false]]);
+    const args = ns.flags([["help", false], ["force", false], ["hacknet", false]]);
     if (args.help || args._.length < 2) {
         ns.tprint("This script buys a server and targets a server for hacking.");
         ns.tprint(`Usage: run ${ns.getScriptName()} RAM TARGET_HOSTNAMES`);
@@ -44,7 +44,7 @@ export async function main(ns) {
         return;
     }
 
-    const useHacknetServers = ns.getPurchasedServerLimit() == 0;
+    const useHacknetServers = args.hacknet ? args.hacknet : ns.getPurchasedServerLimit() == 0;
     const playerServers = list_servers(ns).filter(s => ns.getServer(s).purchasedByPlayer);
     const ram = args._[0] > 0 ? args._[0] : ns.getPurchasedServerMaxRam();
     const target_list = args._.slice(1);
