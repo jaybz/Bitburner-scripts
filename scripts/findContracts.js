@@ -18,7 +18,7 @@ export function list_servers(ns) {
 
 /** @param {import(".").NS} ns **/
 export async function main(ns) {
-    list_servers(ns).filter(s => !ns.getPurchasedServers().includes(s)).concat('home').forEach((server) => {
+    list_servers(ns).filter(s => !ns.getServer(s).purchasedByPlayer).concat('home').forEach((server) => {
         ns.ls(server, ".cct").forEach((file) => {
             ns.tprint(`${server}: ${file}`);
         });

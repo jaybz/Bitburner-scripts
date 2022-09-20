@@ -28,7 +28,7 @@ export async function main(ns) {
     }
 
     const playerLevel = ns.getHackingLevel();
-	const servers = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => !ns.getPurchasedServers().includes(s));
+	const servers = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => !ns.getServer(s).purchasedByPlayer);
     for(const server of servers) {
         const used = ns.getServerUsedRam(server);
         const max = ns.getServerMaxRam(server);

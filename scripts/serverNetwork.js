@@ -41,7 +41,7 @@ export class ServerNetwork {
     getGraph(root = "home") {
         let adjs = {};
         const func = (r) => {
-            adjs[r] = this.ns.scan(r).filter(s => !this.ns.getPurchasedServers().includes(s)).filter((v) => !Object.keys(adjs).includes(v));
+            adjs[r] = this.ns.scan(r).filter(s => !this.ns.getServer(s).purchasedByPlayer).filter((v) => !Object.keys(adjs).includes(v));
             for (let n of adjs[r]) func(n);
         };
         func(root);

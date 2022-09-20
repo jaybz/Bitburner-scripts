@@ -19,11 +19,10 @@ export function list_servers(ns) {
 /** @param {import(".").NS} ns **/
 function computeProfitability(ns, target) {
     const maxMoney = ns.getServerMaxMoney(target);
-    const batchTime = ns.getWeakenTime(target);
-
     const player = ns.getPlayer();
     const server = ns.getServer(target);
     server.hackDifficulty = server.minDifficulty;
+    const batchTime = ns.formulas.hacking.weakenTime(server, player);
     const hackPercent = ns.formulas.hacking.hackPercent(server, player) * 100;
 
     return (maxMoney / batchTime) * hackPercent;
@@ -41,7 +40,7 @@ export async function main(ns) {
     }
 
     const playerLevel = ns.getHackingLevel();
-	const servers = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => ns.getServerMaxMoney(s) > 0).filter(s => !ns.getPurchasedServers().includes(s)).sort((a,b) => computeProfitability(ns,a) - computeProfitability(ns,b));
+	const servers = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => ns.getServerMaxMoney(s) > 0).filter(s => !ns.getServer(s).purchasedByPlayer).sort((a,b) => computeProfitability(ns,a) - computeProfitability(ns,b));
 
     for(const server of servers) {
         const used = ns.getServerUsedRam(server);

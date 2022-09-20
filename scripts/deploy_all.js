@@ -35,7 +35,7 @@ export async function main(ns) {
 		return;
 	}
 
-	const host_list = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => ns.getServerMaxRam(s) > 0).filter(s => !ns.getPurchasedServers().includes(s));
+	const host_list = list_servers(ns).filter(s => ns.hasRootAccess(s)).filter(s => ns.getServerMaxRam(s) > 0).filter(s => !ns.getServer(s).purchasedByPlayer);
 	for(var hostnum = 0; hostnum < host_list.length; hostnum++)	{
 		var host = host_list[hostnum];
 
