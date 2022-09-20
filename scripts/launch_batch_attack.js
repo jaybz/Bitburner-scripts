@@ -2,6 +2,24 @@
 
 const batchScripts = ['/batcher/batch_farm.js', '/batcher/grow.js', '/batcher/hack.js', '/batcher/weaken.js'];
 
+function scan(ns, parent, server, list) {
+    const children = ns.scan(server);
+    for (let child of children) {
+        if (parent == child) {
+            continue;
+        }
+        list.push(child);
+        
+        scan(ns, server, child, list);
+    }
+}
+
+export function list_servers(ns) {
+    const list = [];
+    scan(ns, '', 'home', list);
+    return list;
+}
+
 function checkScripts(ns) {
     const files = ns.ls(ns.getHostname(), '/batcher/');
 
@@ -26,27 +44,33 @@ export async function main(ns) {
         return;
     }
 
+    const useHacknetServers = ns.getPurchasedServerLimit() == 0;
+    const playerServers = list_servers(ns).filter(s => ns.getServer(s).purchasedByPlayer);
     const ram = args._[0] > 0 ? args._[0] : ns.getPurchasedServerMaxRam();
     const target_list = args._.slice(1);
 
     for (var target_num = 0; target_num < target_list.length; target_num++) {
+        if (useHacknetServers && playerServers.length <= target_num) {
+            ns.tprint(`You only have ${playerServers.length} Hacknet servers. Ignoring remaining targets.`)
+            return;
+        }
         const target = target_list[target_num];
-        const hostname = `${target}-farmer`;
+        const hostname = useHacknetServers ? playerServers[target_num] : `${target}-farmer`;
         const cost = ns.getPurchasedServerCost(ram);
 
         if (!checkScripts(ns)) {
             ns.tprint('Aborting');
         } else if (!ns.serverExists(target)) {
             ns.tprint(`${target} does not exist.`);
-        } else if (cost <= ns.getPurchasedServerMaxRam()) {
+        } else if (!useHacknetServers && cost <= ns.getPurchasedServerMaxRam()) {
             ns.tprint(`Ram size must be ${ns.getPurchasedServerMaxRam()} or less.`);
-        } else if (cost == Infinity) {
+        } else if (!useHacknetServers && cost == Infinity) {
             ns.tprint('Ram size must be a power of 2.');
         } else {
-            const servers = ns.getPurchasedServers();
-
-            if (servers.includes(hostname)) {
-                if (ns.getServerMaxRam(hostname) < ram) {
+            if (playerServers.includes(hostname)) {
+                if (useHacknetServers) {
+                    ns.tprint(`Hacknet servers are available, using ${hostname}. Uploading scripts...`)
+                } else if (ns.getServerMaxRam(hostname) < ram) {
                     if (args.force) {
                         ns.tprint(`${hostname} already exists but has less than the desired amount of ram.`)
                         const money = ns.getPlayer().money;
