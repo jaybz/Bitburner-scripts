@@ -28,3 +28,8 @@ export async function main(ns) {
 	ns.tprint(`Launching script '${script}' on server '${host}' with ${threads} threads and the following arguments: ${host} ${script_args}`);
 	ns.exec(script, host, threads, ...script_args);
 }
+
+/** @param {import(".").AutocompleteData} data **/
+export function autocomplete(data, args) {
+    return data.servers.concat(data.scripts);
+}

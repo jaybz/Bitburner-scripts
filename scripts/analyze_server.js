@@ -32,3 +32,8 @@ ${server}:
     hackChance : ${(ns.hackAnalyzeChance(server) * 100).toFixed(2)}%
 `);
 }
+
+/** @param {import(".").AutocompleteData} data **/
+export function autocomplete(data, args) {
+    return data.servers;
+}
