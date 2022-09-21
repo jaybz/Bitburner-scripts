@@ -18,7 +18,7 @@ export function list_servers(ns) {
 
 /** @param {import(".").NS} ns **/
 export async function main(ns) {
-	const servers = ns.getPurchasedServerLimit() > 0 ? ns.getPurchasedServers() : list_servers(ns).filter(s => ns.getServer(s).purchasedByPlayer);
+	const servers = list_servers(ns).filter(s => ns.getServer(s).purchasedByPlayer);
 	servers.forEach(server => {
         const used = ns.getServerUsedRam(server);
         const max = ns.getServerMaxRam(server);
