@@ -9,3 +9,8 @@ export async function main(ns) {
 		}
 	}
 }
+
+/** @param {import(".").AutocompleteData} data **/
+export function autocomplete(data, args) {
+    return data.servers;
+}
