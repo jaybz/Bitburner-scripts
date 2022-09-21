@@ -71,6 +71,7 @@ export async function main(ns) {
     ns.tprint(`Money threshold: ${ns.nFormat(moneyThreshold, "$0.000a")}`);
     ns.tprint(`Security threshold: ${securityThreshold}`);
     ns.tprint(`Single Batch RAM: ${singleBatchRAM}`);
+    ns.tprint(`Available RAM: ${ns.getServerMaxRam(host) - ns.getServerUsedRam(host)}`)
     ns.tprint(`Thread Count: ${threadCount}`);
 
     /*
@@ -108,4 +109,8 @@ export async function main(ns) {
 
         await ns.asleep(1);
     }
+}
+
+export function autocomplete(data, args) {
+    return data.servers;
 }
